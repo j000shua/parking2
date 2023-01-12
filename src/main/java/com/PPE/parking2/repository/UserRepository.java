@@ -7,6 +7,6 @@ import java.util.List;
 
 // A quoi correspondent les classes entre les <> apres MongoRepository ?
 public interface UserRepository extends MongoRepository<User, String> {
-    List<User> findByNom(String nom);
+    User findByNom(String nom);
     List<User> findByAdmin(boolean admin);
 }

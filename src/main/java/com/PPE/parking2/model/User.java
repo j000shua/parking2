@@ -3,7 +3,7 @@ package com.PPE.parking2.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
+@Document(collection = "user")
 public class User {
     @Id
     private String id;
