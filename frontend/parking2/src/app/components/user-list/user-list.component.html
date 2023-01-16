@@ -1,1 +1,8 @@
 <p>user-list works!</p>
+<p>{{ users }}</p>
+
+<li *ngFor= " let user of users; index as i ">
+
+    {{ user }} {{i}}
+
+</li>
