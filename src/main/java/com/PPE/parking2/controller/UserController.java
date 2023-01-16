@@ -17,6 +17,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @CrossOrigin
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         try{
