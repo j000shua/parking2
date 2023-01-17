@@ -2,9 +2,9 @@ package com.PPE.parking2.controller;
 
 import com.PPE.parking2.model.User;
 import com.PPE.parking2.repository.UserRepository;
-import org.apache.tomcat.util.buf.StringUtils;
+import com.PPE.parking2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+;import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +17,13 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @CrossOrigin
+    @Autowired
+    UserService userService;
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         try{
-            List<User> allUsers = userRepository.findAll();
+            List<User> allUsers = userService.retrieveAllUsers();
 
             if(allUsers.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
