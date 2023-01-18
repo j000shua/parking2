@@ -1,8 +1,7 @@
 package com.PPE.parking2.controller;
 
+import com.PPE.parking2.dto.UserDto;
 import com.PPE.parking2.entity.UserEntity;
-import com.PPE.parking2.repository.UserRepository;
-import com.PPE.parking2.service.UserService;
 import com.PPE.parking2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 ;import org.springframework.http.HttpStatus;
@@ -10,22 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     UserServiceImpl userService;
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         try{
-            List<UserEntity> allUsers = userService.getAllUsers();
+            List<UserDto> allUsers = userService.getAllUsers();
 
             if(allUsers.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,9 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getOneUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserDto> getOneUser(@PathVariable("id") String id) {
         try{
-            UserEntity user = userService.getOneUser(id);
+            UserDto user = userService.getOneUser(id);
             if(user != null)
                 return new ResponseEntity<>(user, HttpStatus.OK);
             else
@@ -53,9 +48,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserEntity user) {
         try{
-            UserEntity newUser = userService.createUser(user);
+            UserDto newUser = userService.createUser(user);
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -64,9 +59,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable("id") String id, @RequestBody UserEntity user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserEntity user) {
         try {
-            UserEntity updatedUser = userService.updateUser(id, user);
+            UserDto updatedUser = userService.updateUser(id, user);
             if (updatedUser == null)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             else

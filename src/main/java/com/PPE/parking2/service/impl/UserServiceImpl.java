@@ -1,5 +1,6 @@
 package com.PPE.parking2.service.impl;
 
+import com.PPE.parking2.dto.UserDto;
 import com.PPE.parking2.entity.UserEntity;
 import com.PPE.parking2.repository.UserRepository;
 import com.PPE.parking2.service.UserService;
@@ -8,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,25 +21,45 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public UserDto map(UserEntity user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .nom(user.getNom())
+                .prenom(user.getPrenom())
+                .mail(user.getMail())
+                .tel(user.getTel())
+                .mdp(user.getMdp())
+                .admin(user.isAdmin())
+                .build();
     }
 
-    public UserEntity getOneUser(String id) {
+    public List<UserDto> map (List<UserEntity> userEntities) {
+        return userEntities.stream().map(user -> {
+            return map(user);
+                }
+        ).collect(Collectors.toList());
+    } //j'ai pas compris ce que j'ai fait la
+
+    public List<UserDto> getAllUsers() {
+        List<UserEntity> allUsersEntities = userRepository.findAll();
+        return map(allUsersEntities);
+    }
+
+    public UserDto getOneUser(String id) {
         Optional<UserEntity> user = userRepository.findById(id);
         if(user.isPresent())
-            return user.get();
+            return map(user.get());
         else
             return null;
     }
 
-    public UserEntity createUser(UserEntity user) {
+    public UserDto createUser(UserEntity user) {
         UserEntity newUser = userRepository.save(new UserEntity(user.getNom(), user.getPrenom(), user.getMail(),
                 user.getTel(), user.getMdp(), user.isAdmin() ));
-        return newUser;
+        return map(newUser);
     }
 
-    public UserEntity updateUser(String id, UserEntity user) {
+    public UserDto updateUser(String id, UserEntity user) {
         Optional<UserEntity> updatedUserOp = userRepository.findById(id);
         if (updatedUserOp.isEmpty())
             return null;
@@ -48,7 +71,8 @@ public class UserServiceImpl implements UserService {
             updatedUser.setTel(user.getTel());
             updatedUser.setMdp(user.getMdp());
             updatedUser.setAdmin(user.isAdmin());
-            return userRepository.save(updatedUser);
+            userRepository.save(updatedUser);
+            return map(updatedUser);
         }
     }
 
