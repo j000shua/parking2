@@ -1,4 +1,4 @@
-package com.PPE.parking2.model;
+package com.PPE.parking2.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "place")
-public class Place {
+public class PlaceEntity {
     @Id
     private String id;
 

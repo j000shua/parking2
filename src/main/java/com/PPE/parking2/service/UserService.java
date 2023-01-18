@@ -1,22 +1,19 @@
 package com.PPE.parking2.service;
 
-import com.PPE.parking2.model.User;
+import com.PPE.parking2.entity.UserEntity;
 import com.PPE.parking2.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+public interface UserService {
 
-@Service
-public class UserService {
+    public List<UserEntity> getAllUsers();
 
-    @Autowired
-    UserRepository userRepository;
+    public UserEntity getOneUser(String id);
 
-    public List<User> retrieveAllUsers() {
-        return userRepository.findAll();
-    }
+    public UserEntity createUser(UserEntity user);
 
+    public UserEntity updateUser(String id, UserEntity user);
+
+    public void deleteUser(String id);
 }

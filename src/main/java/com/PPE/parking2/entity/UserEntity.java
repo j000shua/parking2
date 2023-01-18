@@ -1,10 +1,10 @@
-package com.PPE.parking2.model;
+package com.PPE.parking2.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
-public class User {
+public class UserEntity {
     @Id
     private String id;
 
@@ -16,9 +16,9 @@ public class User {
     private boolean admin;
     private int rang;
 
-    public User(){}
+    public UserEntity(){}
 
-    public User(String nom, String prenom, String mail, String tel, String mdp, boolean admin) {
+    public UserEntity(String nom, String prenom, String mail, String tel, String mdp, boolean admin) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;

@@ -1,7 +1,6 @@
 package com.PPE.parking2.controller;
 
-import com.PPE.parking2.model.Place;
-import com.PPE.parking2.model.User;
+import com.PPE.parking2.entity.PlaceEntity;
 import com.PPE.parking2.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +17,9 @@ public class PlaceController {
     PlaceRepository placeRepository;
 
     @GetMapping("/places")
-    public ResponseEntity<List<Place>> getAllPlaces() {
+    public ResponseEntity<List<PlaceEntity>> getAllPlaces() {
         try{
-            List<Place> allPlaces = placeRepository.findAll();
+            List<PlaceEntity> allPlaces = placeRepository.findAll();
 
             if(allPlaces.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -34,9 +33,9 @@ public class PlaceController {
     }
 
     @GetMapping("/places/{id}")
-    public ResponseEntity<Place> getOnePlace(@PathVariable("id") String id) {
+    public ResponseEntity<PlaceEntity> getOnePlace(@PathVariable("id") String id) {
         try{
-            Optional<Place> place = placeRepository.findById(id);
+            Optional<PlaceEntity> place = placeRepository.findById(id);
             if(place.isPresent())
                 return new ResponseEntity<>(place.get(), HttpStatus.OK);
             else
@@ -48,9 +47,9 @@ public class PlaceController {
     }
 
     @PostMapping("/places")
-    public ResponseEntity<Place> createPlace(@RequestBody Place place) {
+    public ResponseEntity<PlaceEntity> createPlace(@RequestBody PlaceEntity place) {
         try{
-            Place newPlace = placeRepository.save(new Place(place.getId(),place.getNumeroPlace()));
+            PlaceEntity newPlace = placeRepository.save(new PlaceEntity(place.getId(),place.getNumeroPlace()));
             return new ResponseEntity<>(newPlace, HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -59,13 +58,13 @@ public class PlaceController {
     }
 
     @PutMapping("/places/{id}")
-    public ResponseEntity<Place> updatePlace(@PathVariable("id") String id, @RequestBody Place place) {
+    public ResponseEntity<PlaceEntity> updatePlace(@PathVariable("id") String id, @RequestBody PlaceEntity place) {
         try {
-            Optional<Place> updatedPlaceOp = placeRepository.findById(id);
+            Optional<PlaceEntity> updatedPlaceOp = placeRepository.findById(id);
             if (updatedPlaceOp.isEmpty())
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             else {
-                Place updatedPlace = updatedPlaceOp.get();
+                PlaceEntity updatedPlace = updatedPlaceOp.get();
                 updatedPlace.setNumeroPlace(place.getNumeroPlace());
 
                 return new ResponseEntity<>(placeRepository.save(updatedPlace), HttpStatus.OK);
