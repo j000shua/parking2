@@ -43,4 +43,8 @@ public class ReservationServiceImpl implements ReservationService {
             return null;
         }
     }
+
+    public List<ReservationEntity> getAllReservations() {
+        return reservationRepository.findAll();
+    }
 }
