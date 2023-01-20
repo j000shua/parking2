@@ -9,6 +9,7 @@ import com.PPE.parking2.service.ReservationService;
 import com.PPE.parking2.service.UserService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
             Random rand = new Random();
             PlaceEntity placeLibre = placesLibres.get(rand.nextInt(placesLibres.size()));
             reservationRepository.save(new ReservationEntity(user, placeLibre));
-            return null;
+            return new ReservationEntity(user, placeLibre);
         }
     }
 
