@@ -1,8 +1,10 @@
 package com.PPE.parking2.entity;
 
+import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Builder
 @Document(collection = "user")
 public class UserEntity {
     @Id

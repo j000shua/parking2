@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.PPE.parking2.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+
+import static com.PPE.parking2.mapper.map;
 
 
 @Service
@@ -20,25 +23,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
-
-    public UserDto map(UserEntity user) {
-        return UserDto.builder()
-                .id(user.getId())
-                .nom(user.getNom())
-                .prenom(user.getPrenom())
-                .mail(user.getMail())
-                .tel(user.getTel())
-                .mdp(user.getMdp())
-                .admin(user.isAdmin())
-                .build();
-    }
-
-    public List<UserDto> map (List<UserEntity> userEntities) {
-        return userEntities.stream().map(user -> {
-            return map(user);
-                }
-        ).collect(Collectors.toList());
-    } //j'ai pas compris ce que j'ai fait la
 
     public List<UserDto> getAllUsers() {
         List<UserEntity> allUsersEntities = userRepository.findAll();
