@@ -1,7 +1,5 @@
 package com.PPE.parking2.service.impl;
 
-import com.PPE.parking2.dto.PlaceDto;
-import com.PPE.parking2.dto.UserDto;
 import com.PPE.parking2.entity.PlaceEntity;
 import com.PPE.parking2.entity.UserEntity;
 import com.PPE.parking2.repository.PlaceRepository;
@@ -19,39 +17,25 @@ public class PlaceServiceImpl implements PlaceService {
     @Autowired
     PlaceRepository placeRepository;
 
-    public PlaceDto map(PlaceEntity place) {
-        return PlaceDto.builder()
-                .id(place.getId())
-                .numero(place.getNumero())
-                .build();
-    }
-
-    public List<PlaceDto> map (List<PlaceEntity> placeEntities) {
-        return placeEntities.stream().map(place -> {
-                    return map(place);
-                }
-        ).collect(Collectors.toList());
-    }
-
-    public List<PlaceDto> getAllPlaces() {
+    public List<PlaceEntity> getAllPlaces() {
         List<PlaceEntity> allPlacesEntities = placeRepository.findAll();
-        return map(allPlacesEntities);
+        return allPlacesEntities;
     }
 
-    public PlaceDto getOnePlace(String id) {
+    public PlaceEntity getOnePlace(String id) {
         Optional<PlaceEntity> place = placeRepository.findById(id);
         if(place.isPresent())
-            return map(place.get());
+            return place.get();
         else
             return null;
     }
 
-    public PlaceDto createPlace(PlaceEntity place) {
+    public PlaceEntity createPlace(PlaceEntity place) {
         PlaceEntity newPlace = placeRepository.save(new PlaceEntity(place.getId(),place.getNumero()));
-        return map(newPlace);
+        return newPlace;
     }
 
-    public PlaceDto updatePlace(String id, PlaceEntity place) {
+    public PlaceEntity updatePlace(String id, PlaceEntity place) {
         Optional<PlaceEntity> updatedPlaceOp = placeRepository.findById(id);
         if (updatedPlaceOp.isEmpty())
             return null;
@@ -59,7 +43,7 @@ public class PlaceServiceImpl implements PlaceService {
             PlaceEntity updatedPlace = updatedPlaceOp.get();
             updatedPlace.setNumero(place.getNumero());
             placeRepository.save(updatedPlace);
-            return map(updatedPlace);
+            return updatedPlace;
         }
     }
 

@@ -1,7 +1,5 @@
 package com.PPE.parking2.controller;
 
-import com.PPE.parking2.dto.PlaceDto;
-import com.PPE.parking2.dto.ReservationDto;
 import com.PPE.parking2.entity.ReservationEntity;
 import com.PPE.parking2.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,9 @@ public class ReservationController {
     ReservationService reservationService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<ReservationDto> create(@PathVariable("id") String id) {
+    public ResponseEntity<ReservationEntity> create(@PathVariable("id") String id) {
         try{
-            ReservationDto newRes = reservationService.create(id);
+            ReservationEntity newRes = reservationService.create(id);
             return new ResponseEntity<>(newRes, HttpStatus.CREATED);
         }
         catch(Exception e){

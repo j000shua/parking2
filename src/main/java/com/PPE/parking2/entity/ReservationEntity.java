@@ -1,24 +1,14 @@
 package com.PPE.parking2.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Builder
 @Data
 @Document("reservation")
 public class ReservationEntity {
-
-    public ReservationEntity(UserEntity user, PlaceEntity place) {
-        this.user = user;
-        this.place = place;
-        this.date = LocalDate.now();
-    }
 
     @Id
     private String id;
@@ -28,4 +18,15 @@ public class ReservationEntity {
     private PlaceEntity place;
 
     private LocalDate date;
+
+    public ReservationEntity(UserEntity user, PlaceEntity place) {
+        this.user = user;
+        this.place = place;
+        this.date = LocalDate.now();
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof ReservationEntity;
+    }
+
 }

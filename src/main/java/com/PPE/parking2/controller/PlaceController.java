@@ -1,6 +1,6 @@
 package com.PPE.parking2.controller;
 
-import com.PPE.parking2.dto.PlaceDto;
+
 import com.PPE.parking2.entity.PlaceEntity;
 import com.PPE.parking2.repository.PlaceRepository;
 import com.PPE.parking2.service.PlaceService;
@@ -20,9 +20,9 @@ public class PlaceController {
     PlaceService placeService;
 
     @GetMapping
-    public ResponseEntity<List<PlaceDto>> getAllPlaces() {
+    public ResponseEntity<List<PlaceEntity>> getAllPlaces() {
         try{
-            List<PlaceDto> allPlaces = placeService.getAllPlaces();
+            List<PlaceEntity> allPlaces = placeService.getAllPlaces();
 
             if(allPlaces.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -36,9 +36,9 @@ public class PlaceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlaceDto> getOnePlace(@PathVariable("id") String id) {
+    public ResponseEntity<PlaceEntity> getOnePlace(@PathVariable("id") String id) {
         try{
-            PlaceDto place = placeService.getOnePlace(id);
+            PlaceEntity place = placeService.getOnePlace(id);
             if(place != null)
                 return new ResponseEntity<>(place, HttpStatus.OK);
             else
@@ -50,9 +50,9 @@ public class PlaceController {
     }
 
     @PostMapping
-    public ResponseEntity<PlaceDto> createPlace(@RequestBody PlaceEntity place) {
+    public ResponseEntity<PlaceEntity> createPlace(@RequestBody PlaceEntity place) {
         try{
-            PlaceDto newPlace = placeService.createPlace(place);
+            PlaceEntity newPlace = placeService.createPlace(place);
             return new ResponseEntity<>(newPlace, HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -61,9 +61,9 @@ public class PlaceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlaceDto> updatePlace(@PathVariable("id") String id, @RequestBody PlaceEntity place) {
+    public ResponseEntity<PlaceEntity> updatePlace(@PathVariable("id") String id, @RequestBody PlaceEntity place) {
         try {
-            PlaceDto updatedPlace = placeService.updatePlace(id, place);
+            PlaceEntity updatedPlace = placeService.updatePlace(id, place);
             if (updatedPlace == null)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             else {

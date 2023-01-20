@@ -1,6 +1,6 @@
 package com.PPE.parking2.controller;
 
-import com.PPE.parking2.dto.UserDto;
+import com.PPE.parking2.entity.UserEntity;
 import com.PPE.parking2.entity.UserEntity;
 import com.PPE.parking2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class UserController {
     UserServiceImpl userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserEntity>> getAllUsers() {
         try{
-            List<UserDto> allUsers = userService.getAllUsers();
+            List<UserEntity> allUsers = userService.getAllUsers();
 
             if(allUsers.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -34,9 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getOneUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserEntity> getOneUser(@PathVariable("id") String id) {
         try{
-            UserDto user = userService.getOneUser(id);
+            UserEntity user = userService.getOneUser(id);
             if(user != null)
                 return new ResponseEntity<>(user, HttpStatus.OK);
             else
@@ -48,9 +48,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
         try{
-            UserDto newUser = userService.createUser(user);
+            UserEntity newUser = userService.createUser(user);
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -59,9 +59,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") String id, @RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> updateUser(@PathVariable("id") String id, @RequestBody UserEntity user) {
         try {
-            UserDto updatedUser = userService.updateUser(id, user);
+            UserEntity updatedUser = userService.updateUser(id, user);
             if (updatedUser == null)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             else
