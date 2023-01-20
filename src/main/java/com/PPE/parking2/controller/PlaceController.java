@@ -1,7 +1,9 @@
 package com.PPE.parking2.controller;
 
+import com.PPE.parking2.dto.PlaceDto;
 import com.PPE.parking2.entity.PlaceEntity;
 import com.PPE.parking2.repository.PlaceRepository;
+import com.PPE.parking2.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +13,16 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/places")
 public class PlaceController {
 
     @Autowired
-    PlaceRepository placeRepository;
+    PlaceService placeService;
 
-    @GetMapping("/places")
-    public ResponseEntity<List<PlaceEntity>> getAllPlaces() {
+    @GetMapping
+    public ResponseEntity<List<PlaceDto>> getAllPlaces() {
         try{
-            List<PlaceEntity> allPlaces = placeRepository.findAll();
+            List<PlaceDto> allPlaces = placeService.getAllPlaces();
 
             if(allPlaces.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -32,12 +35,12 @@ public class PlaceController {
         }
     }
 
-    @GetMapping("/places/{id}")
-    public ResponseEntity<PlaceEntity> getOnePlace(@PathVariable("id") String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<PlaceDto> getOnePlace(@PathVariable("id") String id) {
         try{
-            Optional<PlaceEntity> place = placeRepository.findById(id);
-            if(place.isPresent())
-                return new ResponseEntity<>(place.get(), HttpStatus.OK);
+            PlaceDto place = placeService.getOnePlace(id);
+            if(place != null)
+                return new ResponseEntity<>(place, HttpStatus.OK);
             else
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -46,10 +49,10 @@ public class PlaceController {
         }
     }
 
-    @PostMapping("/places")
-    public ResponseEntity<PlaceEntity> createPlace(@RequestBody PlaceEntity place) {
+    @PostMapping
+    public ResponseEntity<PlaceDto> createPlace(@RequestBody PlaceEntity place) {
         try{
-            PlaceEntity newPlace = placeRepository.save(new PlaceEntity(place.getId(),place.getNumeroPlace()));
+            PlaceDto newPlace = placeService.createPlace(place);
             return new ResponseEntity<>(newPlace, HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -57,17 +60,14 @@ public class PlaceController {
         }
     }
 
-    @PutMapping("/places/{id}")
-    public ResponseEntity<PlaceEntity> updatePlace(@PathVariable("id") String id, @RequestBody PlaceEntity place) {
+    @PutMapping("/{id}")
+    public ResponseEntity<PlaceDto> updatePlace(@PathVariable("id") String id, @RequestBody PlaceEntity place) {
         try {
-            Optional<PlaceEntity> updatedPlaceOp = placeRepository.findById(id);
-            if (updatedPlaceOp.isEmpty())
+            PlaceDto updatedPlace = placeService.updatePlace(id, place);
+            if (updatedPlace == null)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             else {
-                PlaceEntity updatedPlace = updatedPlaceOp.get();
-                updatedPlace.setNumeroPlace(place.getNumeroPlace());
-
-                return new ResponseEntity<>(placeRepository.save(updatedPlace), HttpStatus.OK);
+                return new ResponseEntity<>(updatedPlace, HttpStatus.OK);
             }
         }
         catch(Exception e) {
@@ -75,10 +75,10 @@ public class PlaceController {
         }
     }
 
-    @DeleteMapping("/places/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePlace(@PathVariable("id") String id ) {
         try{
-            placeRepository.deleteById(id);
+            placeService.deletePlace(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){

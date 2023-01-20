@@ -14,5 +14,5 @@ public class PlaceEntity {
     @Id
     private String id;
 
-    private String numeroPlace;
+    private String numero;
 }
