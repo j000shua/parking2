@@ -31,7 +31,7 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     public PlaceEntity createPlace(PlaceEntity place) {
-        PlaceEntity newPlace = placeRepository.save(new PlaceEntity(place.getId(),place.getNumero()));
+        PlaceEntity newPlace = placeRepository.save(new PlaceEntity(place.getId(),place.getNumero(), false));
         return newPlace;
     }
 
@@ -50,4 +50,16 @@ public class PlaceServiceImpl implements PlaceService {
     public void deletePlace(String id) {
         placeRepository.deleteById(id);
     }
+
+    public void saveTaken(String id, boolean taken) {
+        PlaceEntity place = placeRepository.findById(id).get();
+        place.setTaken(taken);
+        placeRepository.save(place);
+    }
+
+    public List<PlaceEntity> getFreePlaces(){
+        System.out.println("DEBUG");
+        return placeRepository.findByTaken(false);
+    }
+
 }

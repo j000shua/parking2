@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -30,7 +31,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationEntity create(String id) {
         UserEntity user = userService.getOneUser(id);
 
-        List<PlaceEntity> placesLibres = placeService.getAllPlaces();
+        List<PlaceEntity> placesLibres = placeService.getFreePlaces();
 
         if (placesLibres.isEmpty()) {
             //user.mettreEnAttente();
@@ -38,6 +39,9 @@ public class ReservationServiceImpl implements ReservationService {
         } else {
             Random rand = new Random();
             PlaceEntity placeLibre = placesLibres.get(rand.nextInt(placesLibres.size()));
+
+            placeService.saveTaken(placeLibre.getId(), true);
+
             ReservationEntity newRes = new ReservationEntity(user,placeLibre);
             return reservationRepository.save(newRes);
         }
@@ -52,7 +56,10 @@ public class ReservationServiceImpl implements ReservationService {
         Optional<ReservationEntity> resToEndOp = reservationRepository.findById(id);
         if(resToEndOp.isPresent()){
             ReservationEntity resToEnd = resToEndOp.get();
-            resToEnd.setDateFin(LocalDate.now());
+            resToEnd.setDateFin(LocalDateTime.now());
+
+            placeService.saveTaken(resToEnd.getPlace().getId(), false);
+
             return reservationRepository.save(resToEnd);
         }
         else

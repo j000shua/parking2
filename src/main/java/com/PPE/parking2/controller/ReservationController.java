@@ -20,7 +20,10 @@ public class ReservationController {
     public ResponseEntity<ReservationEntity> create(@PathVariable("id") String id) {
         try{
             ReservationEntity newRes = reservationService.create(id);
-            return new ResponseEntity<>(newRes, HttpStatus.CREATED);
+            if(newRes==null)
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            else
+                return new ResponseEntity<>(newRes, HttpStatus.CREATED);
         }
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

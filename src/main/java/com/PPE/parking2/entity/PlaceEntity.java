@@ -17,4 +17,6 @@ public class PlaceEntity {
     private String id;
 
     private String numero;
+
+    private boolean taken;
 }

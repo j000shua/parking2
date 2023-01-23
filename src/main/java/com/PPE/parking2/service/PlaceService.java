@@ -15,4 +15,8 @@ public interface PlaceService {
     public PlaceEntity updatePlace(String id, PlaceEntity place);
 
     public void deletePlace(String id);
+
+    public void saveTaken(String id, boolean taken);
+
+    public List<PlaceEntity> getFreePlaces();
 }

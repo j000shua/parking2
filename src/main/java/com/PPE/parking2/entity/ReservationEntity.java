@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Document("reservation")
@@ -17,14 +18,14 @@ public class ReservationEntity {
 
     private PlaceEntity place;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
-    private LocalDate dateFin;
+    private LocalDateTime dateFin;
 
     public ReservationEntity(UserEntity user, PlaceEntity place) {
         this.user = user;
         this.place = place;
-        this.date = LocalDate.now();
+        this.date = LocalDateTime.now();
     }
 
     protected boolean canEqual(final Object other) {
