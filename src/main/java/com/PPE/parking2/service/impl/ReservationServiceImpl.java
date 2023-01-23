@@ -7,15 +7,13 @@ import com.PPE.parking2.repository.ReservationRepository;
 import com.PPE.parking2.service.PlaceService;
 import com.PPE.parking2.service.ReservationService;
 import com.PPE.parking2.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-
-
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -40,12 +38,24 @@ public class ReservationServiceImpl implements ReservationService {
         } else {
             Random rand = new Random();
             PlaceEntity placeLibre = placesLibres.get(rand.nextInt(placesLibres.size()));
-            reservationRepository.save(new ReservationEntity(user, placeLibre));
-            return new ReservationEntity(user, placeLibre);
+            ReservationEntity newRes = new ReservationEntity(user,placeLibre);
+            return reservationRepository.save(newRes);
         }
     }
 
     public List<ReservationEntity> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    public ReservationEntity end(String id) {
+
+        Optional<ReservationEntity> resToEndOp = reservationRepository.findById(id);
+        if(resToEndOp.isPresent()){
+            ReservationEntity resToEnd = resToEndOp.get();
+            resToEnd.setDateFin(LocalDate.now());
+            return reservationRepository.save(resToEnd);
+        }
+        else
+            return null;
     }
 }

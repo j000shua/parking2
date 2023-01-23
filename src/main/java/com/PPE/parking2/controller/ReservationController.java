@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reservation")
+@RequestMapping("/res")
 public class ReservationController {
 
     @Autowired
@@ -42,4 +42,19 @@ public class ReservationController {
         }
 
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ReservationEntity> end(@PathVariable("id") String id) {
+        try {
+            ReservationEntity res = reservationService.end(id);
+            if (res==null)
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            else
+                return new ResponseEntity<>(res,HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

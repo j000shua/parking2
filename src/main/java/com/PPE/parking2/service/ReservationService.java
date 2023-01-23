@@ -10,4 +10,6 @@ public interface ReservationService {
     public ReservationEntity create(String id);
 
     public List<ReservationEntity> getAllReservations();
+
+    public ReservationEntity end(String id);
 }

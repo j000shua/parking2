@@ -19,6 +19,8 @@ public class ReservationEntity {
 
     private LocalDate date;
 
+    private LocalDate dateFin;
+
     public ReservationEntity(UserEntity user, PlaceEntity place) {
         this.user = user;
         this.place = place;
