@@ -16,7 +16,7 @@ public interface PlaceService {
 
     public void deletePlace(String id);
 
-    public void saveTaken(String id, boolean taken);
+    public PlaceEntity saveTaken(String id, boolean taken);
 
     public List<PlaceEntity> getFreePlaces();
 }

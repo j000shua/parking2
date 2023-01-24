@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
             Random rand = new Random();
             PlaceEntity placeLibre = placesLibres.get(rand.nextInt(placesLibres.size()));
 
-            placeService.saveTaken(placeLibre.getId(), true);
+            placeLibre = placeService.saveTaken(placeLibre.getId(), true);
 
             ReservationEntity newRes = new ReservationEntity(user,placeLibre);
             return reservationRepository.save(newRes);
@@ -57,8 +57,9 @@ public class ReservationServiceImpl implements ReservationService {
         if(resToEndOp.isPresent()){
             ReservationEntity resToEnd = resToEndOp.get();
             resToEnd.setDateFin(LocalDateTime.now());
-
-            placeService.saveTaken(resToEnd.getPlace().getId(), false);
+            resToEnd.getPlace().setTaken(false);
+            PlaceEntity place = resToEnd.getPlace();
+            place = placeService.saveTaken(place.getId(), false);
 
             return reservationRepository.save(resToEnd);
         }

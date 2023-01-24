@@ -51,10 +51,10 @@ public class PlaceServiceImpl implements PlaceService {
         placeRepository.deleteById(id);
     }
 
-    public void saveTaken(String id, boolean taken) {
+    public PlaceEntity saveTaken(String id, boolean taken) {
         PlaceEntity place = placeRepository.findById(id).get();
         place.setTaken(taken);
-        placeRepository.save(place);
+        return placeRepository.save(place);
     }
 
     public List<PlaceEntity> getFreePlaces(){
